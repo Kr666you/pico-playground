@@ -21,7 +21,7 @@
 #define FLASH_IMAGE_BASE 0x1003c000
 #define FLASH_IMAGE_SCANLINE_SIZE (640 * sizeof(uint16_t))
 #define FLASH_IMAGE_SIZE (FLASH_IMAGE_SCANLINE_SIZE * 480)
-#define FLASH_N_IMAGES 3
+#define FLASH_N_IMAGES 1
 #define FRAMES_PER_IMAGE 300
 
 #define VGA_MODE vga_mode_640x480_60
@@ -54,13 +54,6 @@ int vga_main(void) {
 const uint16_t *img_base = (const uint16_t *) FLASH_IMAGE_BASE;
 
 void __time_critical_func(frame_update_logic)() {
-    static uint slideshow_ctr = 0;
-    static uint image_index = 0;
-    if (++slideshow_ctr >= FRAMES_PER_IMAGE) {
-        slideshow_ctr = 0;
-        image_index = (image_index + 1) % FLASH_N_IMAGES;
-        img_base = (const uint16_t *) (FLASH_IMAGE_BASE + FLASH_IMAGE_SIZE * image_index);
-    }
 }
 
 static inline uint16_t *raw_scanline_prepare(struct scanvideo_scanline_buffer *dest, uint width) {
